@@ -2,14 +2,17 @@ public class Individual {
     private Account[] accounts;
     private int size;
 
+    public static final int SIXTEEN = 16;
+    public static final int ZERO = 0;
+
     public Individual() {
-        this.accounts = new Account[16];
-        this.size = 0;
+        this.accounts = new Account[SIXTEEN];
+        this.size = ZERO;
     }
 
     public Individual(int size) {
         this.accounts = new Account[size];
-        this.size = 0;
+        this.size = ZERO;
     }
 
     public Individual(Account[] accounts) {
@@ -27,6 +30,22 @@ public class Individual {
         }
     }
 
+    private void hideAdd(Account account){
+        for(int i = 0; i<accounts.length;i++){
+            if(accounts[i]==null){
+                accounts[i] = account;
+                size++;
+                return;
+            }
+        }
+    }
+
+    private void extendArray(){
+        Account[] buf = new Account[accounts.length*2];
+        System.arraycopy(accounts,0,buf,0,accounts.length);
+        accounts = buf;
+    }
+
     public boolean add(Account account,int index){
         if(accounts[index]==null){
             accounts[index] = account;
@@ -41,17 +60,15 @@ public class Individual {
     }
 
     public Account get(String number){
-        for (Account account:accounts) {
-            if(account.getNumber().equals(number)){
-                return account;
-            }
+        for(int i = 0; i<size;i++){
+            if(accounts[i].checkNumber(number)) return accounts[i];
         }
         return null;
     }
 
     public boolean hasAccountWithNumber(String number){
-        for(Account account: accounts){
-            if(account.getNumber().equals(number))return true;
+        for(int i = 0; i<size;i++){
+            if(accounts[i].checkNumber(number)) return true;
         }
         return false;
     }
@@ -80,27 +97,10 @@ public class Individual {
     }
 
     public int indexOf(String number){
-        for(int i = 0; i<accounts.length;i++){
-            if(accounts[i].getNumber().equals(number))
-                return i;
+        for(int i = 0; i<size;i++){
+            if(accounts[i].getNumber().equals(number)) return i;
         }
         return -1;
-    }
-
-    private void extendArray(){
-        Account[] buf = new Account[accounts.length*2];
-        System.arraycopy(accounts,0,buf,0,accounts.length);
-        accounts = buf;
-    }
-
-    private void hideAdd(Account account){
-        for(int i = 0; i<accounts.length;i++){
-            if(accounts[i]==null){
-                accounts[i] = account;
-                size++;
-                return;
-            }
-        }
     }
 
     //Возвращает общее число счетов

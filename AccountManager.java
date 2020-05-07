@@ -22,6 +22,22 @@ public class AccountManager {
         }
     }
 
+    private void extendArray(){
+        Individual[] buf = new Individual[individuals.length*2];
+        System.arraycopy(individuals,0,buf,0,individuals.length);
+        individuals = buf;
+    }
+
+    private void hideAdd(Individual individual){
+        for(int i = 0; i<individuals.length;i++){
+            if(individuals[i]==null){
+                individuals[i] = individual;
+                size++;
+                return;
+            }
+        }
+    }
+
     public boolean add(Individual individual,int index){
         if(individuals[index]==null){
             individuals[index] = individual;
@@ -82,17 +98,17 @@ public class AccountManager {
     }
 
     public Account getAccountWithNumber(String number){
-        for(Individual individual:individuals){
-            if(individual.get(number)!=null){
-                return individual.get(number);
+        for(int i = 0; i<size;i++){
+            if(individuals[i].get(number)!=null){
+                return individuals[i].get(number);
             }
         }
         return null;
     }
 
     public Account removeAccount(String number){
-        for(Individual individual:individuals){
-            Account buf = individual.remove(number);
+        for(int i = 0; i<size;i++){
+            Account buf = individuals[i].remove(number);
             if(buf!=null){
                 return buf;
             }
@@ -101,29 +117,12 @@ public class AccountManager {
     }
 
     public Account setAccount(Account account,String number){
-        for(Individual individual:individuals){
-            if(individual.indexOf(number)>0){
-                return individual.set(account,individual.indexOf(number));
+        for(int i = 0;i<size;i++){
+            if(individuals[i].indexOf(number)>0){
+                return individuals[i].set(account,individuals[i].indexOf(number));
             }
         }
         return null;
     }
-
-    private void extendArray(){
-        Individual[] buf = new Individual[individuals.length*2];
-        System.arraycopy(individuals,0,buf,0,individuals.length);
-        individuals = buf;
-    }
-
-    private void hideAdd(Individual individual){
-        for(int i = 0; i<individuals.length;i++){
-            if(individuals[i]==null){
-                individuals[i] = individual;
-                size++;
-                return;
-            }
-        }
-    }
-
 }
 

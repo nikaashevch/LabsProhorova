@@ -30,6 +30,10 @@ public class Account {
         this.balance = balance;
     }
 
+    public boolean checkNumber(String number){
+        return this.number.equals(number);
+    }
+
     @Override
     public String toString() {
         return number + " " + balance;
